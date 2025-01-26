@@ -14,11 +14,15 @@ export default function Login({
     status?: string;
     canResetPassword: boolean;
 }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: false,
-    });
+  const { data, setData, post, processing, errors, reset } = useForm<{
+    email: string;
+    password: string;
+    remember: boolean;
+}>({
+    email: '',
+    password: '',
+    remember: false, // Default value remains false
+});
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -77,10 +81,7 @@ export default function Login({
                         <Checkbox
                             name="remember"
                             checked={data.remember}
-                            onChange={(e) =>
-                                // setData('remember', e.target.checked)
-                                setData('remember', false)
-                            }
+                            onChange={(e) => setData('remember', e.target.checked)}
                         />
                         <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
                             Remember me
@@ -92,7 +93,7 @@ export default function Login({
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                            className="link"
                         >
                             Forgot your password?
                         </Link>
